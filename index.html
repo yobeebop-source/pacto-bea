@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O Pacto de Beatriz</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:black;
+color:white;
+font-family:'Cinzel', serif;
+overflow:hidden;
+}
+
+.screen{
+display:none;
+width:100%;
+height:100vh;
+padding:30px;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+text-align:center;
+position:relative;
+overflow:hidden;
+}
+
+.active{
+display:flex;
+}
+
+.bg-face{
+position:absolute;
+inset:0;
+background-image:url('medo.png');
+background-size:180px;
+background-repeat:repeat;
+opacity:0.08;
+filter:blur(2px);
+transform:rotate(-8deg) scale(1.2);
+animation:floatBg 12s infinite alternate ease-in-out;
+}
+
+@keyframes floatBg{
+from{
+transform:rotate(-8deg) scale(1.2) translateY(0px);
+}
+to{
+transform:rotate(-5deg) scale(1.25) translateY(-30px);
+}
+}
+
+h1{
+font-size:2rem;
+margin-bottom:20px;
+text-shadow:0 0 20px crimson;
+z-index:2;
+}
+
+p{
+max-width:600px;
+line-height:1.8;
+margin-bottom:20px;
+z-index:2;
+}
+
+button{
+background:#111;
+color:white;
+border:1px solid crimson;
+padding:14px 20px;
+border-radius:8px;
+cursor:pointer;
+margin:8px;
+transition:.3s;
+z-index:2;
+}
+
+button:hover{
+background:crimson;
+}
+
+input{
+background:transparent;
+border:none;
+border-bottom:2px solid crimson;
+color:white;
+padding:12px;
+width:220px;
+text-align:center;
+margin-bottom:20px;
+font-size:1rem;
+z-index:2;
+}
+
+.cards{
+display:flex;
+gap:15px;
+z-index:2;
+}
+
+.card{
+width:80px;
+height:130px;
+border:1px solid crimson;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+background:#111;
+transition:.3s;
+}
+
+.card:hover{
+transform:scale(1.05);
+box-shadow:0 0 15px crimson;
+}
+
+.glitch{
+animation:glitch 2s infinite;
+}
+
+@keyframes glitch{
+0%{opacity:1;}
+50%{opacity:0.5;}
+100%{opacity:1;}
+}
+
+#runaway{
+position:relative;
+z-index:2;
+}
+</style>
+</head>
+<body>
+
+<div class="screen active" id="screen1">
+<div class="bg-face"></div>
+
+<h1 class="glitch">O Pacto de Beatriz</h1>
+
+<p>
+Dizem que certos nomes ecoam entre mundos.<br><br>
+E entre todos eles... um sempre retorna.<br><br>
+
+Beatriz.<br><br>
+
+Bruxa dos caminhos tortos, das luas inquietas e dos segredos guardados.
+</p>
+
+<button onclick="nextScreen(2)">Aceitar o chamado</button>
+</div>
+
+<div class="screen" id="screen2">
+<div class="bg-face"></div>
+
+<h1>Primeiro Selo</h1>
+
+<p>
+Caminho contigo desde o primeiro instante.<br>
+À luz, me revelo.<br>
+No escuro, me alongo.<br>
+Nunca falo, mas sempre te sigo.<br><br>
+
+O que sou?
+</p>
+
+<input id="answer1" placeholder="Digite sua resposta">
+<button onclick="checkPuzzle1()">Quebrar selo</button>
+<p id="feedback1"></p>
+</div>
+
+<div class="screen" id="screen3">
+<div class="bg-face"></div>
+
+<h1>O Oráculo</h1>
+
+<p>
+Escolha um símbolo.<br>
+O destino tocará o próximo caminho.
+</p>
+
+<div class="cards">
+<div class="card" onclick="pickCard(1)">☽</div>
+<div class="card" onclick="pickCard(2)">✶</div>
+<div class="card" onclick="pickCard(3)">☿</div>
+</div>
+
+<p id="oracleText"></p>
+</div>
+
+<div class="screen" id="screen4">
+<div class="bg-face"></div>
+
+<h1>Nome Perdido</h1>
+
+<p>
+As runas foram espalhadas.<br>
+Revele a palavra:
+</p>
+
+<h1>A I P D N Í B A</h1>
+
+<input id="answer2" placeholder="Digite aqui">
+<button onclick="checkPuzzle2()">Revelar</button>
+<p id="feedback2"></p>
+</div>
+
+<div class="screen" id="screen5">
+<div class="bg-face"></div>
+
+<h1>O Pacto</h1>
+
+<p>
+Os selos foram quebrados.<br>
+O círculo foi fechado.<br><br>
+
+Beatriz...<br><br>
+
+Bruxas entendem pactos melhor que ninguém.<br>
+Você aceitou o pacto.<br><br>
+
+Agora precisamos ter um encontro.
+</p>
+
+<button onclick="accept()">Aceito meu destino</button>
+<button id="runaway">Negar o inevitável</button>
+</div>
+
+<div class="screen" id="screen6">
+<div class="bg-face"></div>
+
+<h1>O vínculo foi selado.</h1>
+
+<p>
+Beatriz...<br><br>
+
+Teus olhos guardam mistérios que fariam qualquer feitiço parecer simples.<br>
+Teu sorriso tem algo perigoso... daquele tipo que prende sem correntes.<br><br>
+
+Se a noite guarda segredos,<br>
+que o meu seja o desejo de te ver.<br><br>
+
+Se existe encanto no mundo,<br>
+talvez ele tenha escolhido teus olhos como morada.<br><br>
+
+Entre tantas luas, sombras e caminhos tortos,<br>
+foi em você que meu ritual encontrou sentido.<br><br>
+
+Agora o pacto está completo.<br><br>
+
+Me informe no WhatsApp quando eu posso encontrar essa bruxa.<br><br>
+
+Já posso planejar nosso encontro?<br>
+</p>
+</div>
+
+<script>
+function nextScreen(num){
+document.querySelectorAll('.screen').forEach(screen=>{
+screen.classList.remove('active');
+});
+document.getElementById('screen'+num).classList.add('active');
+}
+
+function checkPuzzle1(){
+let answer = document.getElementById("answer1").value.toLowerCase().trim();
+
+if(answer === "sombra"){
+nextScreen(3);
+}else{
+document.getElementById("feedback1").innerText =
+"As trevas ainda não reconhecem sua resposta...";
+}
+}
+
+function pickCard(num){
+const texts = {
+1:"A lua conhece teus segredos.",
+2:"O destino já foi escrito.",
+3:"As sombras sussurram teu nome."
+};
+
+document.getElementById("oracleText").innerText = texts[num];
+
+setTimeout(()=>{
+nextScreen(4);
+},2500);
+}
+
+function checkPuzzle2(){
+let answer = document.getElementById("answer2").value.toLowerCase().trim();
+
+if(answer === "pindaiba" || answer === "pindaíba"){
+nextScreen(5);
+}else{
+document.getElementById("feedback2").innerText =
+"As runas continuam confusas...";
+}
+}
+
+function accept(){
+nextScreen(6);
+}
+
+const runaway = document.getElementById("runaway");
+
+runaway.addEventListener("mouseover", function(){
+const x = Math.random()*250 - 125;
+const y = Math.random()*250 - 125;
+runaway.style.transform = `translate(${x}px, ${y}px)`;
+});
+</script>
+
+</body>
+</html>
